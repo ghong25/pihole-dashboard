@@ -1,0 +1,17 @@
+[Unit]
+Description=Pi-hole Dashboard
+After=network.target pihole-FTL.service
+
+[Service]
+Type=simple
+User=ghong
+WorkingDirectory=/home/ghong/pihole-dashboard/backend
+ExecStart=/home/ghong/pihole-dashboard/backend/venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8080
+Restart=on-failure
+RestartSec=5
+Environment=PIHOLE_DASH_FTL_DB_PATH=/etc/pihole/pihole-FTL.db
+Environment=PIHOLE_DASH_GRAVITY_DB_PATH=/etc/pihole/gravity.db
+Environment=PIHOLE_DASH_STATIC_DIR=/home/ghong/pihole-dashboard/frontend/dist
+
+[Install]
+WantedBy=multi-user.target
